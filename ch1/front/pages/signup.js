@@ -3,37 +3,33 @@ import AppLayout from "../components/AppLayout";
 import { Form, Input, Checkbox, Button } from "antd";
 
 const Signup = () => {
-  const [id, setId] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [term, setTerm] = useState(false);
-
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
+  const useInput = (initValue = null) => {
+    const [value, setter] = useState(initValue);
+    const handler = e => {
+      setter(e.target.value);
+    };
+    return [value, handler];
+  };
+
+  const [id, onChangeId] = useInput("");
+  const [nickname, onChangeNickname] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
   const onSubmit = e => {
     e.preventDefault();
-
     if (password !== passwordCheck) {
       return setPasswordError(true);
     }
     if (!term) {
       return setTermError(true);
     }
+  };
 
-    console.log(id, nickname, password, passwordCheck, term);
-  };
-  const onChangeId = e => {
-    setId(e.target.value);
-  };
-  const onChangeNickname = e => {
-    setNickname(e.target.value);
-  };
-  const onChangePassword = e => {
-    setPassword(e.target.value);
-  };
-  const onChangePasswordChk = e => {
+  const onChangePasswordCheck = e => {
     setPasswordError(e.target.value !== password);
     setPasswordCheck(e.target.value);
   };
@@ -74,7 +70,7 @@ const Signup = () => {
             type="password"
             required
             value={passwordCheck}
-            onChange={onChangePasswordChk}
+            onChange={onChangePasswordCheck}
           ></Input>
           {passwordError && (
             <p style={{ color: "red" }}>Password Confirm is different from password input box.</p>
