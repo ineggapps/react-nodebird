@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/Link";
-import { Menu, Input, Button } from "antd";
+import { Menu, Input, Button, Row, Col, Card, Avatar } from "antd";
+
+const dummy = {
+  nickname: "inegg",
+  Post: [],
+  Followings: [],
+  Follwers: []
+};
 
 const AppLayout = ({ children }) => {
   return (
@@ -27,7 +34,38 @@ const AppLayout = ({ children }) => {
             </Link>
           </Button>
         </Menu>
-        {children}
+        <Row>
+          {/* xs:모바일 , sm: 작은화면, md:중간화면, lg:큰 화면 */}
+          <Col xs={8} md={6}>
+            <Card
+              actions={[
+                <div key="twit">
+                  Posts
+                  <br />
+                  {dummy.Post.length}
+                </div>,
+                <div key="following">
+                  Followings
+                  <br />
+                  {dummy.Followings.length}
+                </div>,
+                <div key="follower">
+                  Followers
+                  <br />
+                  {dummy.Follwers.length}
+                </div>
+              ]}
+            >
+              <Card.Meta avatar={<Avatar>{dummy.nickname[0]}</Avatar>} title={dummy.nickname} />
+            </Card>
+          </Col>
+          <Col xs={8} md={12}>
+            {children}
+          </Col>
+          <Col xs={8} md={6}>
+            3rd
+          </Col>
+        </Row>
       </div>
     </>
   );
