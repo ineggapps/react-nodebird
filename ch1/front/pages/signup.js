@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import AppLayout from "../components/AppLayout";
+import React, { useState, useCallback } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
 
 const Signup = () => {
@@ -9,9 +8,9 @@ const Signup = () => {
   const [termError, setTermError] = useState(false);
   const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
-    const handler = e => {
+    const handler = useCallback(e => {
       setter(e.target.value);
-    };
+    }, []);
     return [value, handler];
   };
 
@@ -19,27 +18,33 @@ const Signup = () => {
   const [nickname, onChangeNickname] = useInput("");
   const [password, onChangePassword] = useInput("");
 
-  const onSubmit = e => {
-    e.preventDefault();
-    if (password !== passwordCheck) {
-      return setPasswordError(true);
-    }
-    if (!term) {
-      return setTermError(true);
-    }
-  };
+  const onSubmit = useCallback(
+    e => {
+      e.preventDefault();
+      if (password !== passwordCheck) {
+        return setPasswordError(true);
+      }
+      if (!term) {
+        return setTermError(true);
+      }
+    },
+    [password, passwordCheck, term]
+  );
 
-  const onChangePasswordCheck = e => {
-    setPasswordError(e.target.value !== password);
-    setPasswordCheck(e.target.value);
-  };
-  const onChangeTerm = e => {
+  const onChangePasswordCheck = useCallback(
+    e => {
+      setPasswordError(e.target.value !== password);
+      setPasswordCheck(e.target.value);
+    },
+    [password]
+  );
+  const onChangeTerm = useCallback(e => {
     setTermError(false);
     setTerm(e.target.checked);
-  };
+  }, []);
 
   return (
-    <AppLayout>
+    <>
       <Form onSubmit={onSubmit} style={{ padding: 10 }}>
         <div>
           <label htmlFor="user-id">Id</label>
@@ -88,7 +93,7 @@ const Signup = () => {
           </Button>
         </div>
       </Form>
-    </AppLayout>
+    </>
   );
 };
 

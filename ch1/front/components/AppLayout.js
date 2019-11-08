@@ -1,18 +1,10 @@
 import React from "react";
-import Head from "next/head";
 import Link from "next/Link";
 import { Menu, Input, Button } from "antd";
 
 const AppLayout = ({ children }) => {
   return (
     <>
-      <Head>
-        <title>NodeBird</title>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.6/antd.min.css"
-        />
-      </Head>
       <div>
         <Menu mode="horizontal">
           <Menu.Item key="home">

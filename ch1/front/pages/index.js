@@ -1,12 +1,10 @@
 import React from "react";
-import AppLayout from "../components/AppLayout";
 
 const Home = () => {
+  console.log("index page");
   return (
     <>
-      <AppLayout>
-        <div>Hello, Next!</div>
-      </AppLayout>
+      <div>Hello, Next!</div>
     </>
   );
 };
