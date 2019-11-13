@@ -31,7 +31,7 @@ const AppLayout = ({ children }) => {
             <Input.Search enterButton style={{ verticalAlign: "middle" }} />
           </Menu.Item>
         </Menu>
-        <Row>
+        <Row gutter={8}>
           {/* xs:모바일 , sm: 작은화면, md:중간화면, lg:큰 화면 */}
           <Col xs={8} md={6}>
             {dummy.isLoggedIn ? (
