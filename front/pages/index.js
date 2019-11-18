@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction, logoutAction } from "../reducers/user";
 
 const dummy = {
   isLoggedIn: true,
@@ -18,9 +20,18 @@ const dummy = {
 };
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector(state => state.user);
+  console.log(user);
+  useEffect(() => {
+    dispatch(loginAction);
+    dispatch(logoutAction);
+    dispatch(loginAction);
+  }, []);
   console.log("index page");
   return (
     <div>
+      {user ? <div>Logged in: {user.nickname}</div> : "Logged out."}
       {dummy.isLoggedIn && <PostForm />}
       {dummy.mainPosts.map(c => {
         return <PostCard key={c} post={c} />;
