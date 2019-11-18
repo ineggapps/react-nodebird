@@ -19,11 +19,13 @@ const dummy = {
   ]
 };
 
-const Home = () => {
+const Home = (/*{user,dispatch, login, logout}*/) => {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector(state => state.user);
   console.log(user);
   useEffect(() => {
+    // login();
+    //logout();
     dispatch(loginAction);
     dispatch(logoutAction);
     dispatch(loginAction);
@@ -40,4 +42,18 @@ const Home = () => {
   );
 };
 
+// function mapStateToProps(state) {
+//   return {
+//     user: state.user
+//   };
+// } //(이전 방식)
+
+// function mapDispatchProps(dispatch) {
+//   return {
+//     login: () => dispatch(loginAction),
+//     logout: () => dispatch(logoutAction)
+//   };
+// }
+
+// export default connect(mapStateToProps)(Home);
 export default Home;
