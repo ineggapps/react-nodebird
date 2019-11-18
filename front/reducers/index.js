@@ -3,6 +3,9 @@ const initialState = {
   user: {}
 };
 
+const LOG_IN = "LOG_IN";
+const LOG_OUT = "LOG_OUT";
+
 const loginAction = {
   type: LOG_IN,
   data: {
