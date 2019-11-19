@@ -12,6 +12,15 @@ export const initialState = {
 
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
+export const SIGN_UP = "SIGN_UP";
+
+//동적 데이터는 함수를 만들어야 한다
+export const signUpAction = data => {
+  return {
+    type: SIGN_UP,
+    signUpData: data
+  };
+};
 
 export const loginAction = {
   type: LOG_IN
@@ -40,6 +49,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         user: null
+      };
+    }
+    case SIGN_UP: {
+      return {
+        ...state,
+        signUpData: action.data
       };
     }
     default:
