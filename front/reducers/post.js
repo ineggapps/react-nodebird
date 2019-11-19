@@ -1,5 +1,15 @@
 export const initialState = {
-  mainPosts: []
+  mainPosts: [
+    {
+      User: {
+        id: 1,
+        nickname: "inegg"
+      },
+      content: "the first post",
+      img: "https://cdn.pixabay.com/photo/2019/09/11/22/29/leaf-4470075_960_720.jpg"
+    }
+  ],
+  imagePath: []
 };
 
 const ADD_POST = "ADD_POST";
