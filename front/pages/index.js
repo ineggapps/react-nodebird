@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAction, logoutAction } from "../reducers/user";
 
 const Home = (/*{user,dispatch, login, logout}*/) => {
   const dispatch = useDispatch();
@@ -11,11 +10,9 @@ const Home = (/*{user,dispatch, login, logout}*/) => {
   const { mainPosts } = useSelector(state => state.post);
   console.log(user);
   useEffect(() => {
-    // login();
-    //logout();
-    // dispatch(loginAction);
-    // dispatch(logoutAction);
-    // dispatch(loginAction);
+    dispatch({ type: "HELLO_SAGA" });
+    dispatch({ type: "HELLO_SAGA" });
+    dispatch({ type: "HELLO_SAGA" });
   }, []);
   console.log("index page");
   return (
