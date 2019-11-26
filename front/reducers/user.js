@@ -22,7 +22,6 @@ export const LOG_OUT_REQUEST = "LOG_OUT_REUQEST";
 export const LOG_OUT_SUCCESS = "LOG_OUT_SUCCESS";
 export const LOG_OUT_FAILURE = "LOG_OUT_FAILURE";
 
-export const INCREMENT_NUMBER; // 동기 요청
 //동적 데이터는 함수를 만들어야 한다
 export const signUpAction = data => {
   return {

@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import Head from "next/head";
-import AppLayout from "../components/AppLayout";
 import { createStore, compose, applyMiddleware } from "redux";
-import { Provider } from "react-redux";
-import reducer from "../reducers";
 import createSagaMiddleware from "redux-saga";
+import { Provider } from "react-redux";
+import AppLayout from "../components/AppLayout";
+import reducer from "../reducers";
 import rootSaga from "../sagas";
 
 const NodeBird = ({ Component, store }) => {
@@ -27,8 +27,8 @@ const NodeBird = ({ Component, store }) => {
 };
 
 NodeBird.propTypes = {
-  Component: PropTypes.elementType,
-  store: PropTypes.object
+  Component: PropTypes.elementType.isRequired,
+  store: PropTypes.object.isRequired
 };
 
 // 3단 커링(Curring), next는 dispatch라고 보면 됨.
