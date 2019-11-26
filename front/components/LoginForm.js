@@ -2,18 +2,29 @@ import React, { useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import { useInput } from "./UseInput";
 import Link from "next/Link";
-import { useDispatch } from "react-redux";
-import { loginAction } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction, LOG_IN_REQUEST } from "../reducers/user";
 
 const LoginForm = () => {
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
+  const { isLoggingIn } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
-  const onSubmitForm = useCallback(e => {
-    e.preventDefault();
-    dispatch(loginAction);
-  }, []);
+  const onSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
+      // dispatch(loginAction);
+      dispatch({
+        type: LOG_IN_REQUEST,
+        data: {
+          id,
+          password
+        }
+      });
+    },
+    [id, password]
+  );
 
   return (
     <Form onSubmit={onSubmitForm} style={{ padding: "10px" }}>
@@ -34,7 +45,7 @@ const LoginForm = () => {
         />
       </div>
       <div style={{ marginTop: "10px" }}>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           Sign In
         </Button>
         <Button loading={false}>

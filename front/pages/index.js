@@ -10,11 +10,11 @@ const Home = (/*{user,dispatch, login, logout}*/) => {
   const { mainPosts } = useSelector(state => state.post);
   console.log(user);
   useEffect(() => {
-    dispatch({ type: "HELLO_SAGA" });
-    dispatch({ type: "HELLO_SAGA" });
-    dispatch({ type: "HELLO_SAGA" });
-    dispatch({ type: "HELLO_SAGA" });
-    dispatch({ type: "HELLO_SAGA" });
+    // dispatch({ type: "HELLO_SAGA" });
+    // dispatch({ type: "HELLO_SAGA" });
+    // dispatch({ type: "HELLO_SAGA" });
+    // dispatch({ type: "HELLO_SAGA" });
+    // dispatch({ type: "HELLO_SAGA" });
   }, []);
   console.log("index page");
   return (

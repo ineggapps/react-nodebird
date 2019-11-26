@@ -1,9 +1,10 @@
-import { all, fork, takeEvery, takeLatest, call, put, take } from "redux-saga/effects";
+import { all, fork, takeEvery, takeLatest, call, put, take, delay } from "redux-saga/effects";
 import axios from "axios";
 import {
   LOG_IN_SUCCESS,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
+  SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE
 } from "../reducers/user";
@@ -15,12 +16,14 @@ function loginAPI() {
 
 function* login() {
   try {
-    yield call(loginAPI);
+    // yield call(loginAPI);
+    yield delay(2000);
     yield put({
-      //put은 dispatch와 동일하다
+      // put은 dispatch 동일
       type: LOG_IN_SUCCESS
     });
   } catch (e) {
+    // loginAPI 실패
     console.error(e);
     yield put({
       type: LOG_IN_FAILURE
@@ -29,13 +32,7 @@ function* login() {
 }
 
 function* watchLogin() {
-  while (true) {
-    yield take(LOG_IN);
-    console.log("login saga");
-    yield put({
-      type: LOG_IN_SUCCESS
-    });
-  }
+  yield takeEvery(LOG_IN_REQUEST, login);
 }
 
 function* signUpAPI() {}
@@ -55,9 +52,9 @@ function* signUp() {
 }
 
 function* watchSignUp() {
-  yield takeEvery(LOG_IN_REQUEST, signUp);
+  yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
 export default function* userSaga() {
-  yield all([watchLogin(), watchSignUp(), watchHello()]);
+  yield all([fork(watchLogin), fork(watchSignUp)]);
 }

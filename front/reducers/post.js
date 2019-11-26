@@ -61,7 +61,7 @@ export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
 const ADD_DUMMY = "ADD_DUMMY";
-
+const ADD_POST = "ADD_POST";
 const addPost = {
   type: ADD_POST
 };
