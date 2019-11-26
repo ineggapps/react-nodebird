@@ -1,5 +1,12 @@
 import { all, fork, takeEvery, takeLatest, call, put, take } from "redux-saga/effects";
-import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from "../reducers/user";
+import axios from "axios";
+import {
+  LOG_IN_SUCCESS,
+  LOG_IN_FAILURE,
+  LOG_IN_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE
+} from "../reducers/user";
 
 const HELLO_SAGA = "HELLO_SAGA";
 function loginAPI() {
@@ -31,26 +38,25 @@ function* watchLogin() {
   }
 }
 
-function* watchHello() {
-  yield takeEvery(HELLO_SAGA, function*() {
-    console.log(1);
-    console.log(2);
-    console.log(3);
-    console.log(4);
-  });
+function* signUpAPI() {}
+
+function* signUp() {
+  try {
+    yield call(signUpAPI);
+    yield put({
+      type: SIGN_UP_SUCCESS
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SIGN_UP_FAILURE
+    });
+  }
 }
 
-// function* watchHello() {
-//   while (true) {
-//     yield take(HELLO_SAGA);
-//     console.log(1);
-//     console.log(2);
-//     console.log(3);
-//     console.log(4);
-//   }
-// }
-
-function* watchSignUp() {}
+function* watchSignUp() {
+  yield takeEvery(LOG_IN_REQUEST, signUp);
+}
 
 export default function* userSaga() {
   yield all([watchLogin(), watchSignUp(), watchHello()]);
