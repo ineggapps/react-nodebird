@@ -16,7 +16,7 @@ function* login() {
   } catch (e) {
     console.error(e);
     yield put({
-      typE: LOG_IN_FAILURE
+      type: LOG_IN_FAILURE
     });
   }
 }
