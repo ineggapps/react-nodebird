@@ -17,7 +17,7 @@ function loginAPI() {
 function* login() {
   try {
     // yield call(loginAPI);
-    yield delay(2000);
+    yield delay(500);
     yield put({
       // put은 dispatch 동일
       type: LOG_IN_SUCCESS
