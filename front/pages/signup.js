@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
 import { useInput } from "../components/UseInput";
 import { SIGN_UP_REQUEST } from "../reducers/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Signup = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -15,6 +15,7 @@ const Signup = () => {
   const [password, onChangePassword] = useInput("");
 
   const dispatch = useDispatch();
+  const { isSigningUp } = useSelector(state => state.user);
 
   const onSubmit = useCallback(
     e => {
@@ -101,7 +102,7 @@ const Signup = () => {
           {termError && <p style={{ color: "red" }}>You must check on the checkbox</p>}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             Register
           </Button>
         </div>

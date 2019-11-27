@@ -39,7 +39,9 @@ function* signUpAPI() {}
 
 function* signUp() {
   try {
-    yield call(signUpAPI);
+    // yield call(signUpAPI);
+    yield delay(2000);
+    throw new Error("Error test");
     yield put({
       type: SIGN_UP_SUCCESS
     });

@@ -10,7 +10,7 @@ export const initialState = {
   isLoggingOut: false, // 로그이웃 시도 중
   isLoggingIn: false, // 로그인 시도 중
   logInErrorReason: "", //로그인 에러 사유
-  signedUp: false, //회원가입 성공
+  isSignedUp: false, //회원가입 성공
   isSigningUp: false, // 회원가입 시도 중
   signUpErrorReason: "", //회원가입 실패 사유
   me: null,
@@ -86,7 +86,23 @@ const reducer = (state = initialState, action) => {
     case SIGN_UP_REQUEST: {
       return {
         ...state,
-        signUpData: action.data
+        isSigningUp: true,
+        isSignedUp: false,
+        signUpErrorReason: ""
+      };
+    }
+    case SIGN_UP_SUCCESS: {
+      return {
+        ...state,
+        isSigningUp: false,
+        isSignedUp: true
+      };
+    }
+    case SIGN_UP_FAILURE: {
+      return {
+        ...state,
+        isSigningUp: false,
+        signUpErrorReason: action.error
       };
     }
     default:
