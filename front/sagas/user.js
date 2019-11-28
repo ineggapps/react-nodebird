@@ -17,6 +17,7 @@ function loginAPI() {
 function* login() {
   try {
     // yield call(loginAPI);
+    console.log("Login access");
     yield delay(500);
     yield put({
       // put은 dispatch 동일
@@ -41,7 +42,7 @@ function* signUp() {
   try {
     // yield call(signUpAPI);
     yield delay(2000);
-    throw new Error("Error test");
+    // throw new Error("Error test")/;
     yield put({
       type: SIGN_UP_SUCCESS
     });

@@ -1,18 +1,23 @@
 export const initialState = {
   mainPosts: [
     {
+      id: 1,
       User: {
         id: 1,
         nickname: "inegg"
       },
       content: "the first post",
-      img: "https://cdn.pixabay.com/photo/2019/09/11/22/29/leaf-4470075_960_720.jpg"
+      img: "https://cdn.pixabay.com/photo/2019/09/11/22/29/leaf-4470075_960_720.jpg",
+      Comments: []
     }
   ], //화면에 보일 포스트들
   imagePath: [], //미리보기 이미지 경로
   addPostErrorReason: false, //포스트 업로드 실패 사유
   isAddingPost: false, //포스트 업로드 중,
-  postAdded: false //포스트 업로드 성공
+  postAdded: false, //포스트 업로드 성공
+  isAddingComment: false,
+  addCommentErrorReason: "",
+  commentAdded: false
 };
 
 const dummyPost = {
@@ -24,6 +29,16 @@ const dummyPost = {
   content: "It is dummy data.",
   Comments: [],
   createdAt: 0
+};
+
+const dummyComment = {
+  id: 1,
+  User: {
+    id: 1,
+    nickname: "inegg"
+  },
+  createdAt: new Date(),
+  content: "A new comment"
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
@@ -72,19 +87,6 @@ export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
 
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
-const ADD_DUMMY = "ADD_DUMMY";
-
-const addDummy = {
-  type: ADD_DUMMY,
-  data: {
-    content: "Hello",
-    UserId: 1,
-    User: {
-      nickname: "inegg"
-    }
-  }
-};
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_REQUEST:
@@ -104,14 +106,35 @@ const reducer = (state = initialState, action) => {
     case ADD_POST_FAILURE:
       return {
         ...state,
-        isAddingPost: false,
-        addPostErrorReason: action.error,
-        postAdded: false
+        isAddingComment: false,
+        addCommentErrorReason: action.error,
+        commentAdded: false
       };
-    case ADD_DUMMY:
+    case ADD_COMMENT_REQUEST:
       return {
         ...state,
-        mainPosts: [action.data, ...state.mainPosts]
+        isAddingComment: true,
+        addCommentErrorReason: "",
+        commentAdded: false
+      };
+    case ADD_COMMENT_SUCCESS:
+      const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+      const post = state.mainPosts[postIndex];
+      const Comments = [...post.Comments, dummyComment];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = { ...post, Comments };
+      return {
+        ...state,
+        isAddingComment: false,
+        mainPosts,
+        commentAdded: true
+      };
+    case ADD_COMMENT_FAILURE:
+      return {
+        ...state,
+        isAddingPost: false,
+        addCommentErrorReason: action.error,
+        commentAdded: false
       };
     default:
       return {
