@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
+import Router from "next/router";
 import { useInput } from "../components/UseInput";
 import { SIGN_UP_REQUEST } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +16,13 @@ const Signup = () => {
   const [password, onChangePassword] = useInput("");
 
   const dispatch = useDispatch();
-  const { isSigningUp } = useSelector(state => state.user);
+  const { isSigningUp, me } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (me) {
+      Router.push("/");
+    }
+  }, [me && me.id]);
 
   const onSubmit = useCallback(
     e => {
