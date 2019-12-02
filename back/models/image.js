@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     "Image",
     {
       src: {
-        //S3저장
+        // S3 저장
         type: DataTypes.STRING(200),
         allowNull: false
       }
