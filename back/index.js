@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const passport = require("passport");
+const passportConfig = require("./passport");
 const db = require("./models");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -12,6 +13,7 @@ const postAPIRouter = require("./routes/post");
 const postsAPIRouter = require("./routes/posts");
 const app = express();
 db.sequelize.sync();
+passportConfig();
 const port = 3065;
 //DB 구성하기
 

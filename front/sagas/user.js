@@ -10,15 +10,14 @@ import {
 } from "../reducers/user";
 
 const HELLO_SAGA = "HELLO_SAGA";
-function loginAPI() {
+function loginAPI(loginData) {
   //서버에 요청을 보내는 부분
+  return axios.post("/login", loginData);
 }
 
-function* login() {
+function* login(action) {
   try {
-    // yield call(loginAPI);
-    console.log("Login access");
-    yield delay(500);
+    yield call(loginAPI, action.data);
     yield put({
       // put은 dispatch 동일
       type: LOG_IN_SUCCESS
