@@ -36,12 +36,14 @@ function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function* signUpAPI() {}
+function* signUpAPI(signUpData) {
+  //서버에 요청하는 부분
+  return axios.post("http://localhost:3065/api/user", signUpData);
+}
 
-function* signUp() {
+function* signUp(action) {
   try {
-    // yield call(signUpAPI);
-    yield delay(2000);
+    yield call(signUpAPI, action.data);
     // throw new Error("Error test")/;
     yield put({
       type: SIGN_UP_SUCCESS
