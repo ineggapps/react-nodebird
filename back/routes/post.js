@@ -1,5 +1,5 @@
 const express = require("express");
-const router = exspress.Router();
+const router = express.Router();
 
 app.post("/", (req, res) => {});
 app.post("/images", (req, res) => {});
