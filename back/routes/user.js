@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     if (exUser) {
       return res.status(403).send("It is already used.");
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 12); //salt는 10~12 사이에서 만듦.
+    const hashedPassword = await bcrypt.hashSync(req.body.password); //salt는 10~12 사이에서 만듦.
     const newUser = await db.User.create({
       nickname: req.body.nickname,
       userId: req.body.userId,
@@ -25,8 +25,8 @@ router.post("/", async (req, res) => {
     return res.json(newUser);
   } catch (e) {
     console.error(e);
-    // return res.status(403).send(e);
-    return next(e); //프런트에 알아서 오류가 났다고 알려 줌.
+    return res.status(403).send(e);
+    // return next(e); //프런트에 알아서 오류가 났다고 알려 줌.
   }
 });
 router.get("/:id", (req, res) => {
