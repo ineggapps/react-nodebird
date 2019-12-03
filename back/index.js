@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const passport = require("passport");
 const db = require("./models");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -33,6 +34,9 @@ app.use(
     }
   })
 );
+app.use(passport.initialize());
+//express session을 선 정의한 후에 passport 세션을 정의해야 함
+app.use(passport.session());
 //API: 다른 서비스가 나의 서비스의 기느응ㄹ 실행할 수 있도록 열여 둔 창구
 app.use("/api/user", userAPIRouter);
 app.use("/api/post", postAPIRouter);
