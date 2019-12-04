@@ -23,7 +23,18 @@ const port = 3065;
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    /*
+    클라이언트와 쿠키로 통신할 수 있도록 옵션 2가지 설정(origin, credentials)
+    프런트엔드 단과 백엔드 단의 서버 주소가 다르기 때문에 쿠키가 생성되지 않으므로 별도의 옵션이 필요하다.
+    1. login 요청의 Header 정보에서 Access-Control-Allow-Credentials가 true여야 하고
+    2. Access-Control-Allow-Origin: 프런트엔드 단의 주소 (http://localhost:3000)로 떠야 한다.
+    */
+    origin: true,
+    credentials: true
+  })
+);
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   expressSession({
@@ -33,7 +44,8 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false //https를 쓸 때 true
-    }
+    },
+    name: "rnbck" //로그인 세션 쿠키 이름 (보안상)
   })
 );
 app.use(passport.initialize());
