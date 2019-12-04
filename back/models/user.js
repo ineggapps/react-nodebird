@@ -34,7 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     db.User.belongsToMany(db.User, {
       through: "Follow",
+      //Javascript에서 구별하는 항목이 as이고
       as: "Followings",
+      //DB에서 구별하는 애트리뷰트(속성)의 이름이 foreignKey
+      //이때 foreignKey는 자신의 것을 가리켜야 하는 것이 아니라 counterpart를 지목해야 한다.
       foreignKey: "followerId"
     });
   };
