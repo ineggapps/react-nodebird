@@ -7,10 +7,10 @@ const passport = require("passport");
 const passportConfig = require("./passport");
 const db = require("./models");
 const dotenv = require("dotenv");
-dotenv.config();
 const userAPIRouter = require("./routes/user");
 const postAPIRouter = require("./routes/post");
 const postsAPIRouter = require("./routes/posts");
+dotenv.config();
 const app = express();
 db.sequelize.sync();
 passportConfig();
@@ -21,8 +21,6 @@ const port = 3065;
 //모든 경로에 적용할 때는 "/"를 생략해도 된다.
 //body-parser는 필요없고 express에서 자체적으로 지원해주게 되었음.
 app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: true,
@@ -35,6 +33,9 @@ app.use(
     */
   })
 );
+console.log(process.env.COOKIE_SECRET);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   expressSession({
