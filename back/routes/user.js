@@ -1,10 +1,18 @@
 const express = require("express");
 const bcrypt = require("bcrypt-nodejs");
-const db = require("../models");
-const router = express.Router();
 const passport = require("passport");
+const db = require("../models");
 
-router.get("/", (req, res) => {});
+const router = express.Router();
+router.get("/", (req, res) => {
+  if (!req.user) {
+    //DeserializedUser가 만들어 준 객체가 req.user임.
+    return res.status(401).send("Login is required.");
+  }
+  const user = Object.assign({}, req.user.toJSON()); //DB에서 꺼내 온 객체라서 toJSON메서드로 JSON화를 해야 한다.
+  delete user.password;
+  return res.json(user);
+});
 router.post("/", async (req, res, next) => {
   //회원가입
   try {
@@ -51,13 +59,33 @@ router.post("/login", (req, res, next) => {
       return res.status(401).send(info.reason);
     }
     //req.login 후에 serializeUser가 실행된다.
-    return req.login(user, loginErr => {
+    return req.login(user, async loginErr => {
       if (loginErr) {
         return next(loginErr);
       }
-      const filteredUser = Object.assign({}, user.toJSON());
-      delete filteredUser.password;
-      return res.json(filteredUser);
+      const fullUser = await db.User.findOne({
+        where: { id: user.id },
+        include: [
+          {
+            model: db.Post,
+            as: "Posts"
+          },
+          {
+            model: db.User,
+            as: "Followings",
+            attributes: ["id"]
+          },
+          {
+            model: db.User,
+            as: "Followers",
+            attributes: ["id"]
+          }
+        ],
+        attributes: ["id", "nickname", "userId"]
+      });
+      // const filteredUser = Object.assign({}/, user.toJSON());
+      // delete filteredUser.password;
+      return res.json(fullUser);
     });
   })(req, res, next);
 });
