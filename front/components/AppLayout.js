@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Link from "next/Link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Menu, Input, Row, Col } from "antd";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
+import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector(state => state.user);
+  const { isLoggedIn, me } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(me, "me가 있나 없나");
+    if (!me) {
+      console.log("me 정보를 불러오겠습니다.");
+      dispatch({
+        type: LOAD_USER_REQUEST
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -30,7 +41,7 @@ const AppLayout = ({ children }) => {
         <Row gutter={8}>
           {/* xs:모바일 , sm: 작은화면, md:중간화면, lg:큰 화면 */}
           <Col xs={8} md={6}>
-            {isLoggedIn ? <UserProfile /> : <LoginForm />}
+            {me ? <UserProfile /> : <LoginForm />}
           </Col>
           <Col xs={8} md={12}>
             {children}
