@@ -1,4 +1,5 @@
-import { all, takeLatest, fork, put, delay } from "redux-saga/effects";
+import { all, takeLatest, fork, put, call } from "redux-saga/effects";
+import axios from "axios";
 import {
   ADD_POST_REQUEST,
   ADD_POST_FAILURE,
@@ -8,11 +9,10 @@ import {
   ADD_COMMENT_FAILURE
 } from "../reducers/post";
 
-function* addCommentAPI() {}
+function addCommentAPI() {}
 function* addComment(action) {
   try {
     console.log("add comment");
-    yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: {
@@ -31,13 +31,18 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
-function* addPostAPI() {}
-function* addPost() {
+function addPostAPI(postData) {
+  console.log(postData, "axios 호출합니다");
+  return axios.post("/post", postData, {
+    withCredentials: true
+  });
+}
+function* addPost(action) {
   try {
-    console.log("이벤트 반응!");
-    yield delay(1000);
+    const result = yield call(addPostAPI, action.data);
     yield put({
-      type: ADD_POST_SUCCESS
+      type: ADD_POST_SUCCESS,
+      data: result.data
     });
   } catch (e) {
     yield put({

@@ -15,8 +15,6 @@ import {
   LOG_OUT_REQUEST
 } from "../reducers/user";
 
-axios.defaults.baseURL = "http://localhost:3065/api/";
-
 const HELLO_SAGA = "HELLO_SAGA";
 function logInAPI(logInData) {
   //서버에 요청을 보내는 부분 withCredentials: 쿠키 교환 가능하도록 옵션 설정

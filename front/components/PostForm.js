@@ -12,15 +12,19 @@ const PostForm = () => {
     setText("");
   }, [postAdded === true]);
 
-  const onSubmitForm = useCallback(e => {
-    e.preventDefault();
-    dispatch({
-      type: ADD_POST_REQUEST,
-      data: {
-        text
-      }
-    });
-  }, []);
+  const onSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
+      console.log(text, "를 디스패치하였습니다");
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          content: text
+        }
+      });
+    },
+    [text]
+  ); // 두 번째 인자가 []로 비어있으면 text의 변경내용이 반영되지 않는다.
   const onChangeText = useCallback(e => {
     setText(e.target.value);
   });
@@ -28,7 +32,7 @@ const PostForm = () => {
     <Form style={{ margin: "10px 0 20px" }} encType="multipart/form-data" onSubmit={onSubmitForm}>
       <Input.TextArea
         maxLength={140}
-        placeholder="Did something strange happen?"
+        placeholder="How happend something strange?"
         value={text}
         onChange={onChangeText}
       ></Input.TextArea>
