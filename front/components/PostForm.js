@@ -15,7 +15,9 @@ const PostForm = () => {
   const onSubmitForm = useCallback(
     e => {
       e.preventDefault();
-      console.log(text, "를 디스패치하였습니다");
+      if (!text || !text.trim()) {
+        return alert("Content is blank. Write your content.");
+      }
       dispatch({
         type: ADD_POST_REQUEST,
         data: {
