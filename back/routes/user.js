@@ -9,6 +9,10 @@ router.get("/", (req, res) => {
     //DeserializedUser가 만들어 준 객체가 req.user임.
     return res.status(401).send("Login is required.");
   }
+  /*
+    일반적으로 toJSON()을 붙이지 않아도 되지만,
+    DB에서 꺼내온 객체를 가공할 경우에 한하여 toJSON()을 적어야 한다.
+  */
   const user = Object.assign({}, req.user.toJSON()); //DB에서 꺼내 온 객체라서 toJSON메서드로 JSON화를 해야 한다.
   delete user.password;
   return res.json(user);
