@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
+import Link from "next/link";
 import { Card, Icon, Button, Avatar, Input, Form, List, Comment } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_COMMENT_REQUEST } from "../reducers/post";
@@ -54,7 +55,25 @@ const PostCard = ({ post }) => {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={post.content}
+          description={
+            <div>
+              {/*
+                "#구독 #좋아요 눌러주세요 #유튜브"를 다음의 정규표현식으로 split하면?
+                /#[^\s]+/g: (4)["", " ", " 눌러주세요 ", ""]
+                /(#[^\s]+)/g: (7)["","#구독","#좋아요"," 눌러주세요 ", "#유튜브",""]
+                */}
+              {post.content.split(/(#[^\s]+)/g).map(v => {
+                if (v.match(/(#[^\s]+)/)) {
+                  return (
+                    <Link href="/hashtag" key={v}>
+                      <a>{v}</a>
+                    </Link>
+                  );
+                }
+                return v;
+              })}
+            </div>
+          }
         />
       </Card>
       {commentFormOpened && (
