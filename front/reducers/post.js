@@ -20,17 +20,6 @@ export const initialState = {
   commentAdded: false
 };
 
-const dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: "inegg"
-  },
-  content: "It is dummy data.",
-  Comments: [],
-  createdAt: 0
-};
-
 const dummyComment = {
   id: 1,
   User: {
