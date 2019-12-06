@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
+import { LOAD_MAIN_POSTS_REQUEST } from "../reducers/post";
 
 const Home = (/*{user,dispatch, login, logout}*/) => {
-  const dispatch = useDispatch();
   //잘게 쪼개는 것이 리렌더링이 줄어들어서 성능 확보에는 더 유리하다. 가끔은 {} 대신 하나씩 쪼개줄 때도 있음..
   const { me, user } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
-  console.log(user);
+  const dispatch = useDispatch();
   useEffect(() => {
     // dispatch({ type: "HELLO_SAGA" });
     // dispatch({ type: "HELLO_SAGA" });
@@ -16,6 +16,13 @@ const Home = (/*{user,dispatch, login, logout}*/) => {
     // dispatch({ type: "HELLO_SAGA" });
     // dispatch({ type: "HELLO_SAGA" });
   }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MAIN_POSTS_REQUEST
+    });
+  }, []);
+
   console.log("index page");
   return (
     <div>
