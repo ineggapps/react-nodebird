@@ -9,7 +9,8 @@ import AppLayout from "../components/AppLayout";
 import reducer from "../reducers";
 import rootSaga from "../sagas";
 
-const NodeBird = ({ Component, store }) => {
+const NodeBird = ({ Component, store, pageProps }) => {
+  //getInitialProps에서 넘긴 pageProps를 받을 수 있다.
   return (
     <Provider store={store}>
       <Head>
@@ -20,10 +21,22 @@ const NodeBird = ({ Component, store }) => {
         />
       </Head>
       <AppLayout>
-        <Component />
+        <Component {...pageProps} />
       </AppLayout>
     </Provider>
   );
+};
+
+//Component Didmount보다 더 먼저 실행된다. getInitialProps는 next가 임의로 추가 한 라이프사이클
+//프론트와 서버 모두에서 실행이 된다.
+NodeBird.getInitialProps = async context => {
+  console.log(context);
+  const { ctx, Component } = context;
+  let pageProps = {};
+  if (context.Component.getInitialProps) {
+    pageProps = await context.Component.getInitialProps(ctx);
+  }
+  return { pageProps };
 };
 
 NodeBird.propTypes = {

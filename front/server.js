@@ -29,6 +29,12 @@ app.prepare().then(() => {
       }
     })
   );
+  server.get("/hashtag/:tag", (req, res) => {
+    return app.render(req, res, "/hashtag", { tag: req.params.tag }); //보여 줄 페이지는 /hashtag라는 페이지라고 명시한 것.(in pages folder)
+  });
+  server.get("/user/:id", (req, res) => {
+    return app.render(req, res, "/user", { id: req.params.id });
+  });
   server.get("*", (req, res) => {
     return handle(req, res); //next에서 뽑아온 handle(get요청처리기)
   });
