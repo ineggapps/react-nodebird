@@ -90,19 +90,22 @@ function* watchSignUp() {
   yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
-function loadUserAPI() {
+function loadUserAPI(userId) {
   //서버에 요청하는 부분
-  return axios.get("/user", { withCredentials: true }); //withCredentials 오타 때문에 하루 헤맸음. 조심하자 ^^
+  console.log(userId, ":요청할 것");
+  return axios.get(userId ? `/user/${userId}` : "/user", { withCredentials: true }); //withCredentials 오타 때문에 하루 헤맸음. 조심하자 ^^
 }
 
-function* loadUser() {
+function* loadUser(action) {
   try {
     // yield call(loadUserAPI);
-    const result = yield call(loadUserAPI);
+    const result = yield call(loadUserAPI, action.data);
+    console.log("result", action.data);
     yield put({
       // put은 dispatch 동일
       type: LOAD_USER_SUCCESS,
-      data: result.data
+      data: result.data,
+      me: !action.data
     });
   } catch (e) {
     // loginAPI 실패

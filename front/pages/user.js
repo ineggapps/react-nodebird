@@ -28,17 +28,17 @@ const User = ({ id }) => {
             <div key="twit">
               Posts
               <br />
-              {me.Posts.length}
+              {me.Posts}
             </div>,
             <div key="following">
               Followings
               <br />
-              {me.Followings.length}
+              {me.Followings}
             </div>,
             <div key="follower">
               Followers
               <br />
-              {me.Followers.length}
+              {me.Followers}
             </div>
           ]}
         >

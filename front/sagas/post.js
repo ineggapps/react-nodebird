@@ -9,7 +9,12 @@ import {
   ADD_COMMENT_FAILURE,
   LOAD_MAIN_POSTS_REQUEST,
   LOAD_MAIN_POSTS_SUCCESS,
-  LOAD_MAIN_POSTS_FAILURE
+  LOAD_MAIN_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAILURE,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_REQUEST
 } from "../reducers/post";
 
 function addCommentAPI() {}
@@ -83,6 +88,58 @@ function* watchLoadMainPosts() {
   yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
 }
 
+function loadHashtagPostsAPI(tag) {
+  return axios.get(`/hashtag/${tag}`);
+  //로그인하지 않아도 글을 볼 수 있도록 withCredentials 옵션을 넣지 않았음
+}
+function* loadHashtagPosts(action) {
+  try {
+    const result = yield call(loadHashtagPostsAPI, action.data);
+    yield put({
+      type: LOAD_HASHTAG_POSTS_SUCCESS,
+      data: result.data
+    });
+  } catch (e) {
+    yield put({
+      type: LOAD_HASHTAG_POSTS_FAILURE,
+      error: e
+    });
+  }
+}
+function* watchLoadHashtagPosts() {
+  //게시글은 한 글이 여러 번 작성되면 안 되므로
+  yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+}
+
+function loadUserPostsAPI(id) {
+  return axios.get(`/user/${id}/posts`);
+  //로그인하지 않아도 글을 볼 수 있도록 withCredentials 옵션을 넣지 않았음
+}
+function* loadUserPosts(actrion) {
+  try {
+    const result = yield call(loadUserPostsAPI, action.data);
+    yield put({
+      type: LOAD_USER_POSTS_SUCCESS,
+      data: result.data
+    });
+  } catch (e) {
+    yield put({
+      type: LOAD_USER_POSTS_FAILURE,
+      error: e
+    });
+  }
+}
+function* watchLoadUserPosts() {
+  //게시글은 한 글이 여러 번 작성되면 안 되므로
+  yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchLoadMainPosts), fork(watchAddPost), fork(watchAddComment)]);
+  yield all([
+    fork(watchLoadMainPosts),
+    fork(watchAddPost),
+    fork(watchAddComment),
+    fork(watchLoadHashtagPosts),
+    fork(watchLoadUserPosts)
+  ]);
 }

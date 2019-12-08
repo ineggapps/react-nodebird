@@ -42,8 +42,39 @@ router.post("/", async (req, res, next) => {
     return next(e); //프런트에 알아서 오류가 났다고 알려 줌.
   }
 });
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res, next) => {
   //타인의 정보 가져오기 (req.param.id)
+  try {
+    const user = await db.User.findOne({
+      where: { id: parseInt(req.params.id, 10) },
+      include: [
+        {
+          model: db.Post,
+          as: "Posts"
+          // attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followings",
+          attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followers",
+          attributes: ["id"]
+        }
+      ],
+      attributes: ["id", "nickname"]
+    });
+    const jsonUser = user.toJSON();
+    jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length : 0;
+    jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length : 0;
+    jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
+    res.json(jsonUser);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
 });
 router.post("/logout", (req, res) => {
   req.logout();
@@ -97,6 +128,20 @@ router.get("/:id/follow", (req, res) => {});
 router.post("/:id/follow", (req, res) => {});
 router.delete("/:id/follow", (req, res) => {});
 router.get("/:id/follower", (req, res) => {});
-router.get("/:id/posts", (req, res) => {});
+router.get("/:id/posts", async (req, res, next) => {
+  try {
+    const posts = await db.Post.findAll({
+      where: {
+        UserId: parseInt(req.params.id, 10),
+        RetweetId: null
+      },
+      include: [{ model: db.User, attributes: ["id", "nickname"] }]
+    });
+    res.json(posts);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 
 module.exports = router;
