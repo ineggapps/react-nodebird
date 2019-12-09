@@ -54,7 +54,10 @@ const PostCard = ({ post }) => {
       >
         <Card.Meta
           avatar={
-            <Link href={{ pathname: `/user`, query: { id: post.User.id } }}>
+            <Link
+              href={{ pathname: `/user`, query: { id: post.User.id } }}
+              as={`/user/${post.User.id}`}
+            >
               <a>
                 <Avatar>{post.User.nickname[0]}</Avatar>
               </a>
@@ -71,7 +74,11 @@ const PostCard = ({ post }) => {
               {post.content.split(/(#[^\s]+)/g).map(v => {
                 if (v.match(/(#[^\s]+)/)) {
                   return (
-                    <Link href={`/hashtag/${v.slice(1)}`} key={v}>
+                    <Link
+                      href={{ pathname: `/hashtag`, query: { tag: v.slice(1) } }}
+                      as={`/hashtag/${v.slice(1)}`} // queryString이 아니라 restapi 형식으로 Link가 보이도록 함
+                      key={v}
+                    >
                       <a>{v}</a>
                     </Link>
                   );
@@ -99,7 +106,10 @@ const PostCard = ({ post }) => {
                 <Comment
                   author={item.User.nickname}
                   avatar={
-                    <Link href={{ pathname: `/user`, query: { id: post.User.id } }}>
+                    <Link
+                      href={{ pathname: `/user`, query: { id: post.User.id } }}
+                      as={`/user/${post.User.id}`}
+                    >
                       <a>
                         <Avatar>{item.User.nickname[0]}</Avatar>
                       </a>
