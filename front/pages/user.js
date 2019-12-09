@@ -28,24 +28,26 @@ const User = ({ id }) => {
             <div key="twit">
               Posts
               <br />
-              {me.Posts}
+              {userInfo.Posts}
             </div>,
             <div key="following">
               Followings
               <br />
-              {me.Followings}
+              {userInfo.Followings}
             </div>,
             <div key="follower">
               Followers
               <br />
-              {me.Followers}
+              {userInfo.Followers}
             </div>
           ]}
         >
-          <Card.Meta acatar={<Avatar>{userInfo.nickname[0]}</Avatar>} />
+          <Card.Meta avatar={<Avatar>{userInfo.nickname[0]}</Avatar>} title={userInfo.nickname} />
         </Card>
       ) : null}
-      {mainPosts && mainPosts.map(c => <PostCard key={+c.createdAt} post={c} />)}
+      {mainPosts.map(c => (
+        <PostCard key={+c.createdAt} post={c} />
+      ))}
     </div>
   );
 };

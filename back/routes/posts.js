@@ -17,6 +17,7 @@ router.get("/", async (req, res, next) => {
         ["updatedAt", "ASC"]
       ] //정렬
     });
+    console.log(posts, "포스트 조회");
     return res.json(posts);
   } catch (e) {
     console.error(e);

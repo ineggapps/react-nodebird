@@ -113,10 +113,11 @@ function* watchLoadHashtagPosts() {
 }
 
 function loadUserPostsAPI(id) {
+  console.log(id, "유저의 포스트를 불러옵니다");
   return axios.get(`/user/${id}/posts`);
   //로그인하지 않아도 글을 볼 수 있도록 withCredentials 옵션을 넣지 않았음
 }
-function* loadUserPosts(actrion) {
+function* loadUserPosts(action) {
   try {
     const result = yield call(loadUserPostsAPI, action.data);
     yield put({
