@@ -5,17 +5,22 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from "../reducers/post";
 import PostCard from "../components/PostCard";
 
 const Hashtag = ({ tag }) => {
-  console.log(tag);
   const dispatch = useDispatch();
-  const { mainPosts } = useSelector(state => state.user);
+  const { mainPosts } = useSelector(state => state.post);
   useEffect(() => {
-    console.log("useEffect in hashtag");
+    console.log("useEffect in hashtag", tag);
     dispatch({
       type: LOAD_HASHTAG_POSTS_REQUEST,
       data: tag
     });
   }, []);
-  return <div>{mainPosts && mainPosts.map(c => <PostCard key={+c.createdAt} post={c} />)}</div>;
+  return (
+    <div>
+      {mainPosts.map(c => (
+        <PostCard key={+c.createdAt} post={c} />
+      ))}
+    </div>
+  );
 };
 
 Hashtag.propTypes = {
@@ -25,7 +30,7 @@ Hashtag.propTypes = {
 //async context의 context는 _app.js의 ~.getInitialProps에서 받아 온 ctx를 의미한다.
 Hashtag.getInitialProps = async context => {
   console.log(`hash getInitialProps`, context.query.tag);
-  return { id: context.query.tag };
+  return { tag: context.query.tag };
 };
 
 export default Hashtag;

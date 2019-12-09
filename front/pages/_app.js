@@ -30,7 +30,6 @@ const NodeBird = ({ Component, store, pageProps }) => {
 //Component Didmount보다 더 먼저 실행된다. getInitialProps는 next가 임의로 추가 한 라이프사이클
 //프론트와 서버 모두에서 실행이 된다.
 NodeBird.getInitialProps = async context => {
-  console.log(context);
   const { ctx, Component } = context;
   let pageProps = {};
   if (context.Component.getInitialProps) {

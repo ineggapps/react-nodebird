@@ -94,6 +94,7 @@ function loadHashtagPostsAPI(tag) {
 }
 function* loadHashtagPosts(action) {
   try {
+    console.log("해시태그 전송", action.data);
     const result = yield call(loadHashtagPostsAPI, action.data);
     yield put({
       type: LOAD_HASHTAG_POSTS_SUCCESS,
