@@ -54,7 +54,7 @@ const PostCard = ({ post }) => {
       >
         <Card.Meta
           avatar={
-            <Link href={`/user/${post.User.id}`}>
+            <Link href={{ pathname: `/user`, query: { id: post.User.id } }}>
               <a>
                 <Avatar>{post.User.nickname[0]}</Avatar>
               </a>
@@ -99,7 +99,7 @@ const PostCard = ({ post }) => {
                 <Comment
                   author={item.User.nickname}
                   avatar={
-                    <Link href={`/user/${post.User.id}`}>
+                    <Link href={{ pathname: `/user`, query: { id: post.User.id } }}>
                       <a>
                         <Avatar>{item.User.nickname[0]}</Avatar>
                       </a>
